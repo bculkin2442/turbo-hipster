@@ -5,27 +5,44 @@
  */
 package data;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Benjamin
  */
-public class Conference {
+@Entity
+public class Conference implements Serializable {
 
+  @Id
   private String cde;
+  @NotNull
   private String loc;
-  private Day begin;
-  private Day end;
+  @NotNull
+  @Temporal(TemporalType.DATE)
+  @Future
+  private Date start;
+  @NotNull
+  @Temporal(TemporalType.DATE)
+  @Future
+  private Date finish;
 
   public Conference() {
   }
 
-  public Conference(String cde, String loc, Day begin, Day end) {
+  public Conference(String cde, String loc, Date begin, Date end) {
     this.cde = cde;
     this.loc = loc;
-    this.begin = begin;
-    this.end = end;
+    this.start = begin;
+    this.finish = end;
   }
 
   public String getCde() {
@@ -44,20 +61,20 @@ public class Conference {
     this.loc = loc;
   }
 
-  public Day getBegin() {
-    return begin;
+  public Date getStart() {
+    return start;
   }
 
-  public void setBegin(Day begin) {
-    this.begin = begin;
+  public void setStart(Date begin) {
+    this.start = begin;
   }
 
-  public Day getEnd() {
-    return end;
+  public Date getFinish() {
+    return finish;
   }
 
-  public void setEnd(Day end) {
-    this.end = end;
+  public void setFinish(Date end) {
+    this.finish = end;
   }
 
   @Override
@@ -65,8 +82,8 @@ public class Conference {
     int hash = 7;
     hash = 83 * hash + Objects.hashCode(this.cde);
     hash = 83 * hash + Objects.hashCode(this.loc);
-    hash = 83 * hash + Objects.hashCode(this.begin);
-    hash = 83 * hash + Objects.hashCode(this.end);
+    hash = 83 * hash + Objects.hashCode(this.start);
+    hash = 83 * hash + Objects.hashCode(this.finish);
     return hash;
   }
 
@@ -88,7 +105,7 @@ public class Conference {
   @Override
   public String toString() {
     return "Conference code named " + cde + " is taking place in "
-            + loc + " starting on " + begin + " and ending on " + end;
+            + loc + " starting on " + start + " and ending on " + finish;
   }
 
 }
