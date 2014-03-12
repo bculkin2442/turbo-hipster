@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/bculkinmod5alt">
-  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" logAbandoned="true" maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/murach" password="itp246" removeAbandoned="true" removeAbandonedTimeout="60" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/bculkinmod5?autoReconnect=true" username="itp246"/>
+<Context antiJARLocking="true" path="/turbo-hipster">
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="mainDB" password="" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/bculkinmod5?zeroDateTimeBehavior=convertToNull" username="itp246"/>
 </Context>

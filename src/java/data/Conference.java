@@ -6,16 +6,15 @@
 package data;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import validation.Following;
 
 /**
+ * A conference held in a specific place between two times.
  *
  * @author Benjamin
  */
@@ -23,26 +22,22 @@ import javax.validation.constraints.NotNull;
 public class Conference implements Serializable {
 
   @Id
+  @NotNull(message = "Conference must be given a code name.")
   private String cde;
-  @NotNull
+  @NotNull(message = "Conference must take place somewhere.")
   private String loc;
-  @NotNull
-  @Temporal(TemporalType.DATE)
-  @Future
-  private Date start;
-  @NotNull
-  @Temporal(TemporalType.DATE)
-  @Future
-  private Date finish;
+  @NotNull(message = "Conference must have a time it takes place.")
+  @Following(message = "Conference must start before it ends.")
+  @Embedded
+  private Duration dur;
 
   public Conference() {
   }
 
-  public Conference(String cde, String loc, Date begin, Date end) {
+  public Conference(String cde, String loc, Duration durn) {
     this.cde = cde;
     this.loc = loc;
-    this.start = begin;
-    this.finish = end;
+    this.dur = durn;
   }
 
   public String getCde() {
@@ -61,20 +56,12 @@ public class Conference implements Serializable {
     this.loc = loc;
   }
 
-  public Date getStart() {
-    return start;
+  public Duration getDur() {
+    return dur;
   }
 
-  public void setStart(Date begin) {
-    this.start = begin;
-  }
-
-  public Date getFinish() {
-    return finish;
-  }
-
-  public void setFinish(Date end) {
-    this.finish = end;
+  public void setDur(Duration dur) {
+    this.dur = dur;
   }
 
   @Override
@@ -82,8 +69,7 @@ public class Conference implements Serializable {
     int hash = 7;
     hash = 83 * hash + Objects.hashCode(this.cde);
     hash = 83 * hash + Objects.hashCode(this.loc);
-    hash = 83 * hash + Objects.hashCode(this.start);
-    hash = 83 * hash + Objects.hashCode(this.finish);
+    hash = 83 * hash + Objects.hashCode(this.dur);
     return hash;
   }
 
@@ -96,16 +82,13 @@ public class Conference implements Serializable {
       return false;
     }
     final Conference other = (Conference) obj;
-    if (!Objects.equals(this.cde, other.cde)) {
-      return false;
-    }
-    return true;
+    return Objects.equals(this.cde, other.cde);
   }
 
   @Override
   public String toString() {
     return "Conference code named " + cde + " is taking place in "
-            + loc + " starting on " + start + " and ending on " + finish;
+            + loc + dur;
   }
 
 }

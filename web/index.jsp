@@ -4,6 +4,7 @@
     Author     : Benjamin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,5 +15,13 @@
   <body>
     <h1>Welcome to conference management!</h1>
     <h2> Please choose a action to perform</h2>
+    <table>
+      <tbody>
+        <tr>
+          <td> <c:url value="/ConferenceStatusServlet" var="linkURL"/>
+            <a href="${linkURL}">Conference Status</a>
+          </td>
+        </tr>
+      </tbody>
   </body>
 </html>
