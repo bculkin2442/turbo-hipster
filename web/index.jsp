@@ -18,8 +18,9 @@
     <table>
       <tbody>
         <tr>
-          <td> <c:url value="/ConferenceStatusServlet" var="linkURL"/>
-            <a href="${linkURL}">Conference Status</a>
+          <td>
+            <c:url value="/ConferenceStatusServlet" var="url" />
+            <a href="${url}">Conference Status</a>
           </td>
         </tr>
       </tbody>

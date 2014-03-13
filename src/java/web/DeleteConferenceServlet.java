@@ -8,7 +8,6 @@ package web;
 import data.dao.ConferenceDAO;
 import java.io.IOException;
 import javax.inject.Inject;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,9 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Benjamin
  */
-@WebServlet(name = "ConferenceStatusServlet",
-        urlPatterns = {"/ConferenceStatusServlet"})
-public class ConferenceStatusServlet extends HttpServlet {
+@WebServlet(name = "DeleteConferenceServlet", urlPatterns = {"/DeleteConferenceServlet"})
+public class DeleteConferenceServlet extends HttpServlet {
 
   @Inject
   ConferenceDAO cdao;
@@ -37,13 +35,11 @@ public class ConferenceStatusServlet extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    cdao.refreshListing();
-    request.setAttribute("conferences", cdao.getConferences(0, 0));
-    RequestDispatcher rd = request.getRequestDispatcher("/conference.jsp");
-    rd.forward(request, response);
+    cdao.deleteConference(request.getParameter("cde"));
+    request.getRequestDispatcher("/ConferenceStatusServlet").forward(request, response);
   }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
   /**
    * Handles the HTTP <code>GET</code> method.
    *

@@ -10,6 +10,7 @@ import java.util.Objects;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import validation.Following;
 
@@ -18,6 +19,7 @@ import validation.Following;
  *
  * @author Benjamin
  */
+@NamedQuery(name = "getAllConferences", query = "SELECT c FROM Conference c")
 @Entity
 public class Conference implements Serializable {
 

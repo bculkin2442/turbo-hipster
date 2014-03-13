@@ -21,8 +21,8 @@ public class FollowingValidator implements ConstraintValidator<Following, Durati
 
   @Override
   public boolean isValid(Duration value, ConstraintValidatorContext context) {
-    return (!value.getStart().before(value.getFinish())
-            || !value.getFinish().after(value.getStart()));
+    return (value.getStart().before(value.getFinish())
+            && value.getFinish().after(value.getStart()));
   }
 
 }

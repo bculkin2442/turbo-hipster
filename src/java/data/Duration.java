@@ -6,16 +6,18 @@
 package data;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Future;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
- * A duration between two times. At least for this project, both are in the
- * future
+ * A duration between two times.
  *
  * @author Benjamin
  */
@@ -24,11 +26,9 @@ public class Duration implements Serializable {
 
   @NotNull
   @Temporal(TemporalType.DATE)
-  @Future
   private Date start;
   @NotNull
   @Temporal(TemporalType.DATE)
-  @Future
   private Date finish;
 
   public Date getStart() {
@@ -53,6 +53,37 @@ public class Duration implements Serializable {
   public Duration(Date start, Date finish) {
     this.start = start;
     this.finish = finish;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 5;
+    hash = 41 * hash + Objects.hashCode(this.start);
+    hash = 41 * hash + Objects.hashCode(this.finish);
+    return hash;
+  }
+
+  @Override
+  public String toString() {
+    return "Starting on " + start + " and ending on " + finish;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final Duration other = (Duration) obj;
+    if (!Objects.equals(this.start, other.start)) {
+      return false;
+    }
+    if (!Objects.equals(this.finish, other.finish)) {
+      return false;
+    }
+    return true;
   }
 
 }

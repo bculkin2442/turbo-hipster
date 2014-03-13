@@ -5,10 +5,15 @@
  */
 package web;
 
+import data.Conference;
+import data.Duration;
 import data.dao.ConferenceDAO;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,9 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Benjamin
  */
-@WebServlet(name = "ConferenceStatusServlet",
-        urlPatterns = {"/ConferenceStatusServlet"})
-public class ConferenceStatusServlet extends HttpServlet {
+@WebServlet(name = "UpdateConferenceServlet", urlPatterns = {"/UpdateConferenceServlet"})
+public class UpdateConferenceServlet extends HttpServlet {
 
   @Inject
   ConferenceDAO cdao;
@@ -37,13 +41,26 @@ public class ConferenceStatusServlet extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    cdao.refreshListing();
-    request.setAttribute("conferences", cdao.getConferences(0, 0));
-    RequestDispatcher rd = request.getRequestDispatcher("/conference.jsp");
-    rd.forward(request, response);
+
+    String cde = request.getParameter("cde");
+    Conference cf = cdao.getConference(cde);
+    cf.setLoc(request.getParameter("loc"));
+    Duration dur = cf.getDur();
+    DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+    try {
+      dur.setStart(df.parse(request.getParameter("start")));
+      dur.setFinish(df.parse(request.getParameter("finish")));
+    } catch (ParseException ex) {
+      Logger.getLogger(RegisterConferenceServlet.class.getName())
+              .log(Level.SEVERE, null, ex);
+    }
+    cf.setDur(dur);
+    cdao.flush();
+    request.getRequestDispatcher("/ConferenceStatusServlet")
+            .forward(request, response);
   }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
   /**
    * Handles the HTTP <code>GET</code> method.
    *
